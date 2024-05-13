@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClimUp Login</title>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+    }
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+    .left {
+        flex: 0.5;  /* Ajustado para maior espaço */
+        background-color: var(--corPadrao);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    .right {
+        flex: 0.5;  
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    h1{
+        font-family: 'Poppins-Bold';
+    }
+    h1, p {
+        font-family: 'Poppins-Regular';
+        text-align: center;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 80%;  
+        max-width: 300px;
+    }
+    input{
+        border-width: 1px;
+        border-color:#9797A0 ;
+
+    }
+    input, button {
+        margin: 10px 0;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 5px;  
+        font-family: 'Poppins-Regular';
+    }
+    button {
+        background-color: var(--corPadrao);
+        color: white;
+        border: none;
+        cursor: pointer;
+
+    }
+    button:hover {
+        background-color: var(--corHover);
+    }
+    a {
+        color: #457B9D;
+        text-decoration: none;
+        font-size: 14px;
+        text-align: center;
+        font-family: 'Poppins-Regular';
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="left">
+        <h1>ClimUp</h1>
+        <p>Cuidar para subir</p>
+        <div id="imagem">
+            <img src="../assets/img/undraw_term_sheet_re_ju7s 1.png">
+        </div>
+    </div>
+    <div class="right">
+        <form>
+            <h1>Bem vindo ao ClimUp!</h1>
+            <input id="login" type="text" placeholder="CNPJ da empresa">
+            <input id="senha" type="password" placeholder="Senha">
+            <a href="#">Esqueci minha senha</a>
+            <button type="button" onclick="efetuaLogin(event)">Entrar</button>
+            <button type="button" onclick="abreCadEmpresa()">Cadastrar-se</button>
+        </form>
+    </div>
+</div>
+</body>
+<script>
+
+    
+    function abreCadEmpresa(){
+        window.location.href = 'cadEmpresa.html'
+    }
+
+    const efetuaLogin = async (event)=>{
+        event.preventDefault();
+        let loginInput = document.getElementById('login').value
+        let senha = document.getElementById('senha').value
+
+        if(loginInput == "" && senha == "" ){
+            alert('Insira login e senha para acessar')
+        }else if(loginInput === "" && senha !== ""){
+            alert('Insira o login para acessar')
+
+        }else if(loginInput !== "" && senha === ""){
+            alert('Insira a senha para acessar')
+        }else{
+            try{
+                const data ={
+                    cnpjEmpresa: loginInput,
+                    senhaEmpresa: senha
+                }
+                var corporeq = JSON.stringify(data)
+                const requisicao = await fetch('http://localhost:3000/api/loginEmpresa',{
+                    method:'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: corporeq
+                });
+
+                if(requisicao.ok){
+                    const respostaApi = await requisicao.json()
+
+                    const idEmpresa = respostaApi.id;
+
+                    const params = new URLSearchParams({
+                        idEmpresa: idEmpresa
+                    }).toString();
+
+                    window.location.href = `empresaHome.html?${params}`
+                }else{
+                    alert('Insira as informações de login corretas');
+                }
+            }catch(err){
+                alert('Erro de conexao')
+                console.log(err)
+            }
+        }
+
+    }
+
+</script>
+</html>

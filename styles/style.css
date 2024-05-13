@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'Poppins-Regular';
+    src: url('../assets/Poppins-Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('../assets/Poppins-Bold.ttf') format('truetype');
+}
+
+
+:root{
+    --fonteTitulo: 'Poppins-Bold';
+    --fonteNormal: 'Poppins-Regular';
+    --corHover: #002760;
+    --corPadrao: #457B9D;
+}

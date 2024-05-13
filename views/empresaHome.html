@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClimUp Nova Página</title>
+<style>
+    h1{
+        font-family: 'Poppins-Bold';
+    }
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: var(--corPadrao); 
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    .cabecalho {
+        background-color: white; 
+        color: #457B9D; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+    .links {
+        display: flex;
+        gap: 20px;
+    }
+    .links a {
+        color: #457B9D; 
+        text-decoration: none;
+        font-family: 'Poppins-Regular';
+        transition: transform 0.3s ease-in-out;
+    }
+    .links a:hover {
+        color: var(--corHover); 
+        transform: translateY(-5px);
+    }
+    .content {
+        flex: 1;
+        padding: 20px;
+        color: white; 
+    }
+    .botao-sair {
+        background-color: var(--corPadrao);
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-family: 'Poppins-Regular';
+    }
+    .botao-sair:hover {
+        background-color: var(--corHover);
+    }
+    #climup{
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+    }
+    #climup:hover{
+        color: var(--corHover);
+        transform: translateY(-5px)
+    }
+</style>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="cabecalho">
+        <div id="climup">
+            <h1>ClimUp</h1>
+        </div>
+        <div class="links">
+            <a href="#">Formulários</a>
+            <a href="#">Setores e Colaboradores</a>
+            <a href="#">Empresa</a>
+        </div>
+        <div>
+            <button class="botao-sair" onclick="sair()">Sair</button>
+        </div>
+    </div>
+    <div class="content">
+        <!-- Conteúdo da página aqui -->
+    </div>
+</div>
+</body>
+<script>
+    function sair() {
+        window.location.href = 'login.html'
+    }
+</script>
+</html>

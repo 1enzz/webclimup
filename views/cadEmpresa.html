@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/style.css">
+    <title>Cadastro de Empresa</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background-color: var(--corPadrao);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-family: 'Poppins-Bold';
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 90%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: 'Poppins-Regular';
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--corPadrao);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            font-family: 'Poppins-Regular';
+        }
+
+        button:hover {
+            background-color: var(--corHover);
+        }
+        #voltar{
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            justify-content: center;
+            margin-right: 15px;
+            cursor: pointer;
+            position: absolute;
+            top: 7%;
+            left: 35%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="voltar" onclick="voltarHome()">
+        <img src="../assets/img/211618_c_left_arrow_icon.png" alt="">
+    </div>
+    <div class="form-container">
+        <h1>Cadastro de Empresa</h1>
+        <div>
+            <input type="text" id="nomeEmpresa" placeholder="Nome da Empresa" required>
+        </div>
+        <div>
+            <input type="text" id="cnpjEmpresa" placeholder="CNPJ" maxlength="14" required>
+        </div>
+        <div>
+            <input type="text" id="contatoEmpresa" placeholder="Telefone" maxlength="11" required>
+        </div>
+        <div>
+            <input type="email" id="emailEmpresa" placeholder="E-mail da empresa" required>
+        </div>
+        <div>
+            <input type="password" id="senhaEmpresa" placeholder="Senha" required>
+        </div>
+        <div>
+            <input type="password" id="senhaConfirma" placeholder="Confirme a senha" required>
+        </div>
+        <div>
+            <button type="submit" onclick="efetuaCadastro(event)">Finalizar Cadastro</button>
+        </div>
+    </div>
+</body>
+<script>
+    const efetuaCadastro = async (event) => {
+        event.preventDefault();
+
+        result = validaCampos();
+
+        try {
+            const requisicao = await fetch('http://localhost:3000/api/empresa', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: result
+            });
+
+            if (requisicao.ok) {
+                alert('Cadastro Realizado com Sucesso!')
+
+                window.location.href = 'login.html'
+            } else {
+                alert('Erro de cadastro tente novamente');
+            }
+        } catch (err) {
+            alert('Erro de conexao')
+            console.log(err)
+        }
+
+    }
+
+    function validaCampos() {
+        let nome = document.getElementById('nomeEmpresa').value;
+        let cnpj = document.getElementById('cnpjEmpresa').value;
+        let contato = document.getElementById('contatoEmpresa').value;
+        let email = document.getElementById('emailEmpresa').value;
+        let senha = document.getElementById('senhaEmpresa').value;
+        let senhaConfirma = document.getElementById('senhaConfirma').value;
+
+        if (nome === "") {
+            alert('Preencha o nome de sua empresa para realizar o cadastro');
+            return;
+        }
+
+        if (cnpj === "") {
+            alert('Preencha o CNPJ de sua empresa');
+            return;
+        } else if (cnpj.length < 14) {
+            alert('Insira um CNPJ válido');
+            return;
+        }
+
+        if (contato === "") {
+            alert('Preencha um telefone de contato válido de sua empresa');
+            return;
+        } else if (contato.length < 11) {
+            alert('Insira um telefone válido');
+            return;
+        }
+
+        if (email === "") {
+            alert('Preencha um email de contato de sua empresa');
+            return;
+        }
+
+        if (senha === "") {
+            alert('Preencha uma senha de cadastro para sua empresa');
+            return;
+        }
+
+        if (senha !== senhaConfirma) {
+            alert('As senhas não conferem');
+            return;
+        }
+
+        const data = {
+            nomeempresa: nome,
+            contatoempresa: contato,
+            emailempresa: email,
+            senhaempresa: senha,
+            cnpjempresa: cnpj
+        }
+
+        let json = JSON.stringify(data);
+        return json;
+    }
+    
+    function voltarHome(){
+        window.location.href = 'login.html';
+    }
+</script>
+
+</html>
