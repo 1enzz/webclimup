@@ -16,7 +16,7 @@
         height: 100vh;
     }
     .left {
-        flex: 0.5;  /* Ajustado para maior espaço */
+        flex: 0.5; 
         background-color: var(--corPadrao);
         color: white;
         display: flex;
@@ -113,9 +113,9 @@
         let senha = document.getElementById('senha').value
 
         if(loginInput == "" && senha == "" ){
-            alert('Insira login e senha para acessar')
+            alert('Insira CNPJ e senha para acessar')
         }else if(loginInput === "" && senha !== ""){
-            alert('Insira o login para acessar')
+            alert('Insira o CNPJ para acessar')
 
         }else if(loginInput !== "" && senha === ""){
             alert('Insira a senha para acessar')

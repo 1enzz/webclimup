@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro Departamentos</title>
+<style>
+    h1{
+        font-family: 'Poppins-Bold';
+    }
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: var(--corPadrao); 
+    }
+    input, button {
+        margin: 10px 0;
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 5px;  
+        font-family: 'Poppins-Regular';
+    }
+    a, i{
+        font-family: var(--fonteNormal);
+        color: var(--corPadrao);
+    }
+    
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+    }
+    .cabecalho {
+        background-color: white; 
+        color: #457B9D; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+    }
+    .links {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .links p {
+        color: #457B9D; 
+        text-decoration: none;
+        font-family: 'Poppins-Regular';
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+    .links p:hover {
+        color: var(--corHover); 
+        transform: translateY(-5px);
+    }
+    .content {
+        flex: 1;
+        padding: 20px;
+        color: white; 
+    }
+    .botao-sair {
+        background-color: var(--corPadrao);
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-family: 'Poppins-Regular';
+    }
+    .botao-sair:hover {
+        background-color: var(--corHover);
+    }
+    #climup{
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
+    }
+    #climup:hover{
+        color: var(--corHover);
+        transform: translateY(-5px)
+    }
+    .listaTelas{
+        border-radius: 5px;
+        font-family: var(--fonteNormal);
+        margin: 5px;
+        width: 100px;
+        height: 70px;
+        margin-left: 15px;
+    }
+
+    .listaTelas p {
+        font-size: xx-small;
+
+    }
+    #realizarCadastro{
+        display: flex;
+        justify-content: center;
+
+    }
+    #cardCadastro, #cardCadastroCsv {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    width: 50%; 
+    height: 50%; 
+    max-width: 400px; 
+    max-height: 400px; 
+    }
+
+/* Outros estilos permanecem inalterados */
+
+    #cardCadastro h2{
+        color: var(--corPadrao);
+        font-family: var(--fonteTitulo);
+    }
+    #cardCadastroCsv h2{
+        color: var(--corPadrao);
+        font-family: var(--fonteTitulo);
+    }
+    #cardCadastro button{
+        background-color: var(--corPadrao);
+        color: white;
+        border: none;
+        cursor: pointer;
+
+    }
+    #cardCadastroCsv button{
+        background-color: var(--corPadrao);
+        color: white;
+        border: none;
+        cursor: pointer;
+
+    }
+    #cardCadastro button:hover {
+        background-color: var(--corHover);
+    }
+    #cardCadastroCsv button:hover {
+        background-color: var(--corHover);
+    }
+    .left{
+        flex: 0.5; 
+        background-color: white;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px;
+    }
+    .right {
+        flex: 0.5;  
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 15px;
+    }
+</style>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="cabecalho">
+        <div id="climup">
+            <h1 onclick="home()">ClimUp</h1>
+        </div>
+        <div class="links">
+            <div style="display: flex; justify-content: center;">
+                <p onclick="abreCadForms()">Formulários</p>
+                <div class="listaTelas" id="listaForms" hidden>
+                    <div style="margin-left: 5px;">
+                        <p onclick="abrePagLista('perguntas')">Perguntas</p>
+                        <p onclick="abrePagLista('formularios')">Formulários</p>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <p onclick="abreCadColaboradores()">Setores e Colaboradores</p>
+                <div class="listaTelas" id="listaColaboradores" hidden>
+                    <div style="margin-left: 5px;">
+                        <p onclick="abrePagLista('departamentos')">Departamentos</p>
+                        <p onclick="abrePagLista('cargos')">Cargos</p>
+                        <p onclick="abrePagLista('colaboradores')">Colaboradores</p>                  
+                    </div>              
+                </div>
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <p onclick="abreDetalhes()">Empresa</p>
+                <div class="listaTelas" id="detalhes" hidden>
+                    <div style="margin-left: 5px;">
+                        <p onclick="abrePagLista('detalhes')">Detalhes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="botao-sair" onclick="sair()">Sair</button>
+        </div>
+    </div>
+    <div class="content">
+        <div id="departamentosCadastrados">
+
+        </div>
+        <div id="realizarCadastro">
+            <div id="cardCadastro" class="left">
+                <div>
+                    <div style="margin: 20px;">
+                        <h2 id="tituloCard">Cadastro Departamento</h2>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin: 5px;">
+                        <input id="nomeDepartamento" type="text" placeholder="Nome do Departamento" style="margin: 5px;">
+                    </div>
+                    <div div style="display: flex; justify-content: center; margin: 5px;">
+                        <button type="button" onclick="cadastrarManual(event)">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+            <div id="cardCadastroCsv" class="right">
+                <div>
+                    <div style="margin: 20px;">
+                        <h2 id="tituloCardCsv">Cadastro Departamento CSV</h2>
+                        <i>*Insira um arquivo por vez <b><a href="../src/modeloDepartamento.csv" download>modelo aqui</a></b></i>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin: 5px;">
+                        <a><input id="arquivoDepartamentos" type="file" style="margin: 5px;"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    const parametros = new URLSearchParams(window.location.search);
+    const id = parametros.get('idEmpresa');
+
+    function abrePagLista(pagina){
+
+
+        if(pagina == 'detalhes'){
+             window.location.href =`dashboardEmpresa.html?idEmpresa=${id}`;
+        }else if(pagina == 'cargos'){
+            window.location.href = `cadCargos.html?idEmpresa=${id}`;
+        }else if(pagina == 'colaboradores'){
+            window.location.href = `cadColaboradores.html?idEmpresa=${id}`;
+        }else if(pagina == 'departamentos'){
+            window.location.href = `cadDepartamentos.html?idEmpresa=${id}`;
+        }else if(pagina == 'formularios'){
+            window.location.href = `cadFormularios.html?idEmpresa=${id}`;
+        }else{
+            window.location.href = `cadPerguntas.html?idEmpresa=${id}`;
+        }
+    }
+    
+    function sair() {
+        window.location.href = 'login.html'
+    }
+
+    function home(){
+        window.location.reload();
+    }
+
+    let contF = 0;
+    function abreCadForms() {
+        if (contF === 0){
+            document.getElementById('listaForms').removeAttribute('hidden')
+            contF = contF+1;
+        }else if(contF % 2 === 0){
+            document.getElementById('listaForms').removeAttribute('hidden')
+            contF = contF+1;
+        }
+        else{
+            document.getElementById('listaForms').setAttribute('hidden', 'true')
+            contF = contF+1;
+        }
+    }
+
+    let contC = 0;
+    function abreCadColaboradores() {
+        if (contC === 0){
+            document.getElementById('listaColaboradores').removeAttribute('hidden')
+            contC = contC+1;
+        }else if(contC % 2 === 0){
+            document.getElementById('listaColaboradores').removeAttribute('hidden')
+            contC = contC+1;
+        }
+        else{
+            document.getElementById('listaColaboradores').setAttribute('hidden', 'true')
+            contC = contC+1;
+        }
+
+    }
+
+    let contD = 0;
+    function abreDetalhes() {
+        if (contD === 0){
+            document.getElementById('detalhes').removeAttribute('hidden')
+            contD = contD+1;
+        }else if(contD % 2 === 0){
+            document.getElementById('detalhes').removeAttribute('hidden')
+            contD = contD+1;
+        }
+        else{
+            document.getElementById('detalhes').setAttribute('hidden', 'true')
+            contD = contD+1;
+        }
+
+    }
+
+
+    const cadastrarManual = async (event) => {
+        event.preventDefault();
+
+        var nome = document.getElementById('nomeDepartamento').value
+
+        if(nome === ''){
+            alert('Preencha o nome do Departamento')
+        }else{
+            const data = [{
+                nomeDepartamento: nome,
+                idEmpresa: id
+            }]
+
+            let json = JSON.stringify(data)
+            try{
+                const requisicao = await fetch('http://localhost:3000/api/departamento',{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                });
+
+                if(requisicao.ok){
+                    alert('Cadastro Realizado com Sucesso!')
+                    window.location.reload()
+                }else{
+                    alert('Erro de cadastro tente novamente');
+                }
+            }catch(err){s
+                alert('Erro de conexao')
+                console.log(err)
+            }
+        }
+    }
+
+    document.getElementById('arquivoDepartamentos').addEventListener('change', function(event) {
+        const file = event.target.files[0]; 
+            if (file) {
+                const reader = new FileReader(); 
+                reader.onload = function(event) { 
+                    let csvData = event.target.result; 
+                    csvData = csvData.replace(/\r/g, '');
+                    csvtoJSON(csvData, id); 
+                };
+                reader.readAsText(file);
+            }
+
+    })
+
+    function csvtoJSON(csv, idEmpresa) {
+        const lines = csv.split('\n');
+        const result = [];
+        const headers = lines[0].split(',');
+
+        for (let i = 1; i < lines.length; i++) {
+            if(i == 1  && lines[i] == ""){
+                alert('Preencha a planilha com algum dado apos o cabeçalho')
+            }else if (lines[i] == ""){
+                let json = JSON.stringify(result);
+                cadastraCSV(json);
+                return;
+            }
+            const obj = {};
+            const currentLine = lines[i].split(',');
+
+            obj[headers] = currentLine[0];
+
+            obj['idEmpresa'] = idEmpresa;
+
+            result.push(obj);
+        }
+
+        
+    }
+
+    const cadastraCSV = async (json) => {
+        try{
+            const requisicao = await fetch('http://localhost:3000/api/departamento',{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                });
+
+                if(requisicao.ok){
+                    alert('Cadastro Realizado com Sucesso!')
+                    window.location.reload()
+                }else{
+                    alert('Erro de cadastro tente novamente');
+                }
+        }catch(err){
+            alert('Erro de conexao')
+                console.log(err)
+        }
+    }
+    
+</script>
+</html>
