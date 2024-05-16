@@ -9,6 +9,12 @@
     <!DOCTYPE html>
 <html lang="pt">
 <head>
+<script src="../js/scripts.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cadastro Departamentos</title>
@@ -107,17 +113,47 @@
 
     }
     #cardCadastro, #cardCadastroCsv {
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    border-radius: 10px;
-    width: 50%; 
-    height: 50%; 
-    max-width: 400px; 
-    max-height: 400px; 
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        border-radius: 10px;
+        width: 50%; 
+        height: 50%; 
+        max-width: 400px; 
+        max-height: 400px; 
+    }
+    #tabela{
+        font-family: var(--fonteNormal);
+
+    }
+    table {
+        width: 100%; 
+
     }
 
-/* Outros estilos permanecem inalterados */
+
+    th {
+        background-color: #f2f2f2; 
+        padding: 8px; 
+        text-align: left; 
+        border: 1px solid transparent; 
+    }
+
+    td {
+        padding: 8px;
+        text-align: left; 
+        border: 1px solid transparent;
+    }
+    tbody tr:nth-child(odd) td {
+        background-color: #f9f9f9; 
+    }
+
+
+    tbody tr:hover td {
+        background-color: #f2f2f2; 
+    }
+
+
 
     #cardCadastro h2{
         color: var(--corPadrao);
@@ -163,7 +199,21 @@
         justify-content: center;
         align-items: center;
         margin: 15px;
+        padding-bottom: 30px;
     }
+    #tabela{
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        border-radius: 8px;
+        margin: 5px;
+        color: var(--corPadrao);
+    }
+    #tabelaDept{
+        color: var(--corPadrao);
+    }
+
+
 </style>
 <link rel="stylesheet" href="../styles/style.css">
 </head>
@@ -208,7 +258,9 @@
     </div>
     <div class="content">
         <div id="departamentosCadastrados">
-
+            <div id="tabela">
+                
+            </div>
         </div>
         <div id="realizarCadastro">
             <div id="cardCadastro" class="left">
@@ -242,6 +294,36 @@
 <script>
     const parametros = new URLSearchParams(window.location.search);
     const id = parametros.get('idEmpresa');
+
+    window.onload = async function(){
+
+        const data = {
+            idEmpresa : id
+        }
+        
+        let json = JSON.stringify(data)
+
+        try{
+            const req = await fetch('http://localhost:3000/api/retornaDepartamentos',{
+                method: 'POST',
+                headers:{
+                    'Content-Type' : 'application/json'
+                }, 
+                body: json
+            })
+            if (req.ok){
+                const resposta = await req.json()
+                if(resposta.total === 0){
+                    alert('Sem registros')
+                }
+
+                
+                document.getElementById('tabela').appendChild(montarTabela(resposta.departamentos))
+            }
+        }catch(err){
+
+        }
+    }
 
     function abrePagLista(pagina){
 
