@@ -225,26 +225,26 @@
         </div>
         <div class="links">
             <div style="display: flex; justify-content: center;">
-                <p onclick="abreCadForms()">Formulários</p>
+                <p onclick="abreCadForms()" id="btnFrm">Formulários</p>
                 <div class="listaTelas" id="listaForms" hidden>
                     <div style="margin-left: 5px;">
-                        <p onclick="abrePagLista('perguntas')">Perguntas</p>
-                        <p onclick="abrePagLista('formularios')">Formulários</p>
+                        <p onclick="abrePagLista('perguntas')" id="p">Perguntas</p>
+                        <p onclick="abrePagLista('formularios')" id="fr">Formulários</p>
                     </div>
                 </div>
             </div>
             <div style="display: flex; justify-content: center;">
-                <p onclick="abreCadColaboradores()">Setores e Colaboradores</p>
+                <p onclick="abreCadColaboradores()" id="btnSetCol">Setores e Colaboradores</p>
                 <div class="listaTelas" id="listaColaboradores" hidden>
                     <div style="margin-left: 5px;">
-                        <p onclick="abrePagLista('departamentos')">Departamentos</p>
-                        <p onclick="abrePagLista('cargos')">Cargos</p>
-                        <p onclick="abrePagLista('colaboradores')">Colaboradores</p>                  
+                        <p onclick="abrePagLista('departamentos')" id="d">Departamentos</p>
+                        <p onclick="abrePagLista('cargos')" id="cg">Cargos</p>
+                        <p onclick="abrePagLista('colaboradores')" id="cl">Colaboradores</p>                  
                     </div>              
                 </div>
             </div>
             <div style="display: flex; justify-content: center;">
-                <p onclick="abreDetalhes()">Empresa</p>
+                <p onclick="abreDetalhes()" id="btnEmp">Empresa</p>
                 <div class="listaTelas" id="detalhes" hidden>
                     <div style="margin-left: 5px;">
                         <p onclick="abrePagLista('detalhes')">Detalhes</p>
@@ -292,10 +292,10 @@
 </div>
 </body>
 <script>
-    const parametros = new URLSearchParams(window.location.search);
-    const id = parametros.get('idEmpresa');
+
 
     window.onload = async function(){
+        buscaParams();
 
         const data = {
             idEmpresa : id
@@ -496,6 +496,8 @@
                 console.log(err)
         }
     }
+
+
     
 </script>
 </html>

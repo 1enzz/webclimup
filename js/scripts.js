@@ -1,3 +1,6 @@
+const parametros = new URLSearchParams(window.location.search);
+
+const id = parametros.get('idEmpresa')
 
 function montarTabela(json) {
 
@@ -28,4 +31,73 @@ function montarTabela(json) {
     table.appendChild(tbody);
 
     return table;
+}
+
+
+  const buscaParams = async () =>{
+
+    const data = {
+        idEmpresa : id
+    }
+    
+    let json = JSON.stringify(data)
+
+    try{
+        const req = await fetch('http://localhost:3000/api/retornaParametrosTelas',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            }, 
+            body: json
+        })
+        if (req.ok){
+            const resposta = await req.json()
+
+           const params = resposta.retorno;
+        
+           verificaParametrosTela(params);
+
+        }
+    }catch(err){
+        alert('Erro de conexao')
+        console.log(err)
+    }
+}
+
+
+function verificaParametrosTela (params){
+    let cargo = document.getElementById('cg');
+    let colaborador = document.getElementById('cl');
+    let pergunta = document.getElementById('p');
+    let formulario = document.getElementById('fr');
+
+    let btnFrm = document.getElementById('btnFrm');
+
+
+    if(params.quantd == 0){
+        cargo.setAttribute('hidden', true);
+        colaborador.setAttribute('hidden', true);
+        pergunta.setAttribute('hidden',true)
+        formulario.setAttribute('hidden', true)
+        btnFrm.onclick = alertCadastre;
+    }else if(params.quantcg == 0){
+        colaborador.setAttribute('hidden', true);
+        pergunta.setAttribute('hidden',true)
+        formulario.setAttribute('hidden', true)
+        btnFrm.onclick = alertCadastre;
+    }if(params.quantcl == 0){
+        pergunta.setAttribute('hidden',true)
+        formulario.setAttribute('hidden', true)
+        btnFrm.onclick = alertCadastre;
+    }else if(params.quantpg == 0){
+        formulario.setAttribute('hidden', true)
+    }
+    
+}
+
+
+function alertCadastre(){
+
+        alert('Conclua o processo de cadastro dos Setores e Colaboradores primeiro!')
+
 }

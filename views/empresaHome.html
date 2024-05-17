@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../js/scripts.js"></script>
 <title>Home</title>
 <style>
     h1{
@@ -95,8 +96,8 @@
                 <p onclick="abreCadForms()">Formulários</p>
                 <div class="listaTelas" id="listaForms" hidden>
                     <div style="margin-left: 5px;">
-                        <p onclick="abrePagLista('perguntas')">Perguntas</p>
-                        <p onclick="abrePagLista('formularios')">Formulários</p>
+                        <p onclick="abrePagLista('perguntas')" id="p">Perguntas</p>
+                        <p onclick="abrePagLista('formularios')" id="fr">Formulários</p>
                     </div>
                 </div>
             </div>
@@ -104,9 +105,9 @@
                 <p onclick="abreCadColaboradores()">Setores e Colaboradores</p>
                 <div class="listaTelas" id="listaColaboradores" hidden>
                     <div style="margin-left: 5px;">
-                        <p onclick="abrePagLista('departamentos')">Departamentos</p>                  
-                        <p onclick="abrePagLista('cargos')">Cargos</p>
-                        <p onclick="abrePagLista('colaboradores')">Colaboradores</p>
+                        <p onclick="abrePagLista('departamentos')" id="d">Departamentos</p>                  
+                        <p onclick="abrePagLista('cargos')" id="cg">Cargos</p>
+                        <p onclick="abrePagLista('colaboradores')" id="cl">Colaboradores</p>
                     </div>              
                 </div>
             </div>
@@ -129,6 +130,9 @@
 </div>
 </body>
 <script>
+    window.onload = function(){
+        buscaParams()
+     }
     function abrePagLista(pagina){
         const parametros = new URLSearchParams(window.location.search);
 
