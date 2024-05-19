@@ -1,70 +1,7 @@
-const parametros = new URLSearchParams(window.location.search);
-
-const id = parametros.get('idEmpresa')
-
-function montarTabela(json) {
-
-    var table = document.createElement("table");
-    table.setAttribute("border", "1");
-
-    var header = table.createTHead();
-    var row = header.insertRow();
-    var idHeader = row.insertCell();
-    var departamentoHeader = row.insertCell();
-    var responsavelHeader = row.insertCell();
-    idHeader.innerHTML = "<b>Id</b>";
-    departamentoHeader.innerHTML = "<b>Departamento</b>";
-    responsavelHeader.innerHTML = "<b>Responsável</b>";
-
-    var tbody = document.createElement("tbody");
-    json.forEach(function (departamento) {
-        var row = tbody.insertRow();
-        var idCell = row.insertCell();
-        var departamentoCell = row.insertCell();
-        var responsavelCell = row.insertCell();
-        idCell.textContent = departamento.Id;
-        departamentoCell.textContent = departamento.Departamento;
-        responsavelCell.textContent = departamento.Responsavel || "Nenhum";
-    });
 
 
-    table.appendChild(tbody);
-
-    return table;
-}
-
-
-  const buscaParams = async () =>{
-
-    const data = {
-        idEmpresa : id
-    }
-    
-    let json = JSON.stringify(data)
-
-    try{
-        const req = await fetch('http://localhost:3000/api/retornaParametrosTelas',{
-            method: 'POST',
-            headers:{
-                'Content-Type' : 'application/json'
-            }, 
-            body: json
-        })
-        if (req.ok){
-            const resposta = await req.json()
-
-           const params = resposta.retorno;
-        
-           verificaParametrosTela(params);
-
-        }
-    }catch(err){
-        alert('Erro de conexao')
-        console.log(err)
-    }
-}
-
-
+//funções de tela
+//verifica os parametros das telas de acordo com dados vindos do banco para disponibilizar (ou noa) as telas
 function verificaParametrosTela (params){
     let cargo = document.getElementById('cg');
     let colaborador = document.getElementById('cl');
@@ -95,9 +32,120 @@ function verificaParametrosTela (params){
     
 }
 
+//converte arquivo csv em json para mandar pra api
+//cadastro de departamento
+function csvtoJSON(csv, idEmpresa) {
+    const lines = csv.split('\n');
+    const result = [];
+    const headers = lines[0].split(',');
+
+    for (let i = 1; i < lines.length; i++) {
+        if(i == 1  && lines[i] == ""){
+            alert('Preencha a planilha com algum dado apos o cabeçalho')
+        }else if (lines[i] == ""){
+            let json = JSON.stringify(result);
+            cadastraCSV(json);
+            return;
+        }
+        const obj = {};
+        const currentLine = lines[i].split(',');
+
+        obj[headers] = currentLine[0];
+
+        obj['idEmpresa'] = idEmpresa;
+
+        result.push(obj);
+    }
+}
+
+//cadastro de cargo
+function csvtoJsonCargo(csv, idEmpresa, idDepartamento){
+
+    const lines = csv.split('\n');
+    const result = [];
+    const headers = lines[0].split(',');
+
+    for (let i = 1; i < lines.length; i++) {
+        if(i == 1  && lines[i] == ""){
+            alert('Preencha a planilha com algum dado apos o cabeçalho')
+        }else if (lines[i] == ""){
+            let json = JSON.stringify(result);
+            cadastraCSVCargo(json);
+            return;
+        }
+        const obj = {};
+        const currentLine = lines[i].split(',');
+
+        obj[headers] = currentLine[0];
+
+        obj['idEmpresa'] = idEmpresa;
+
+        obj['idDepartamento'] = idDepartamento
+
+        result.push(obj);
+    }
+}
+
+//monta tabela html a partir do json
+function montarTabela(json) {
+    var table = document.createElement("table");
+    table.setAttribute("border", "1");
+
+    var header = table.createTHead();
+    var row = header.insertRow();
+
+    // Extrai as chaves do primeiro objeto do JSON
+    var keys = Object.keys(json[0]);
+    keys.forEach(function (key) {
+        var cell = row.insertCell();
+        cell.innerHTML = `<b>${key}</b>`;
+    });
+
+    var tbody = document.createElement("tbody");
+    json.forEach(function (item) {
+        var row = tbody.insertRow();
+        keys.forEach(function (key) {
+            var cell = row.insertCell();
+            cell.textContent = item[key] || "Nenhum";
+        });
+    });
+
+    table.appendChild(tbody);
+
+    return table;
+}
+
+
+
+function escondeDivs(){
+    let manual = document.getElementById('cardCadastro')
+    let csv = document.getElementById('cardCadastroCsv')
+    manual.style.display = "none";
+    csv.style.display = "none";
+
+}
+function abasteceSelect(retorno){
+    const departamentosSelect = document.getElementById('selectIdDept')
+
+    retorno.forEach(departamento =>{
+        const opcao = document.createElement('option')
+        opcao.value = departamento.idDepartamento;
+        opcao.text = departamento.nomeDepartamento;
+        departamentosSelect.appendChild(opcao)
+
+    })
+}
 
 function alertCadastre(){
 
-        alert('Conclua o processo de cadastro dos Setores e Colaboradores primeiro!')
+    alert('Conclua o processo de cadastro dos Setores e Colaboradores primeiro!')
 
+}
+
+function home(){
+    window.location.href = `/views/empresaHome.html?idEmpresa=${id}`;
+}
+
+function sair() {
+    window.location.href = 'login.html'
 }

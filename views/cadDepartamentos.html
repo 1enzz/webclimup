@@ -10,11 +10,7 @@
 <html lang="pt">
 <head>
 <script src="../js/scripts.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
-
+<script src="../js/reqs.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cadastro Departamentos</title>
@@ -297,32 +293,7 @@
     window.onload = async function(){
         buscaParams();
 
-        const data = {
-            idEmpresa : id
-        }
-        
-        let json = JSON.stringify(data)
-
-        try{
-            const req = await fetch('http://localhost:3000/api/retornaDepartamentos',{
-                method: 'POST',
-                headers:{
-                    'Content-Type' : 'application/json'
-                }, 
-                body: json
-            })
-            if (req.ok){
-                const resposta = await req.json()
-                if(resposta.total === 0){
-                    alert('Sem registros')
-                }
-
-                
-                document.getElementById('tabela').appendChild(montarTabela(resposta.departamentos))
-            }
-        }catch(err){
-
-        }
+        retornaDepartamentosCadastrados()
     }
 
     function abrePagLista(pagina){
@@ -343,13 +314,8 @@
         }
     }
     
-    function sair() {
-        window.location.href = 'login.html'
-    }
 
-    function home(){
-        window.location.reload();
-    }
+
 
     let contF = 0;
     function abreCadForms() {
@@ -399,42 +365,6 @@
     }
 
 
-    const cadastrarManual = async (event) => {
-        event.preventDefault();
-
-        var nome = document.getElementById('nomeDepartamento').value
-
-        if(nome === ''){
-            alert('Preencha o nome do Departamento')
-        }else{
-            const data = [{
-                nomeDepartamento: nome,
-                idEmpresa: id
-            }]
-
-            let json = JSON.stringify(data)
-            try{
-                const requisicao = await fetch('http://localhost:3000/api/departamento',{
-                    method: 'POST',
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                    body: json
-                });
-
-                if(requisicao.ok){
-                    alert('Cadastro Realizado com Sucesso!')
-                    window.location.reload()
-                }else{
-                    alert('Erro de cadastro tente novamente');
-                }
-            }catch(err){s
-                alert('Erro de conexao')
-                console.log(err)
-            }
-        }
-    }
-
     document.getElementById('arquivoDepartamentos').addEventListener('change', function(event) {
         const file = event.target.files[0]; 
             if (file) {
@@ -449,53 +379,6 @@
 
     })
 
-    function csvtoJSON(csv, idEmpresa) {
-        const lines = csv.split('\n');
-        const result = [];
-        const headers = lines[0].split(',');
-
-        for (let i = 1; i < lines.length; i++) {
-            if(i == 1  && lines[i] == ""){
-                alert('Preencha a planilha com algum dado apos o cabeçalho')
-            }else if (lines[i] == ""){
-                let json = JSON.stringify(result);
-                cadastraCSV(json);
-                return;
-            }
-            const obj = {};
-            const currentLine = lines[i].split(',');
-
-            obj[headers] = currentLine[0];
-
-            obj['idEmpresa'] = idEmpresa;
-
-            result.push(obj);
-        }
-
-        
-    }
-
-    const cadastraCSV = async (json) => {
-        try{
-            const requisicao = await fetch('http://localhost:3000/api/departamento',{
-                    method: 'POST',
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                    body: json
-                });
-
-                if(requisicao.ok){
-                    alert('Cadastro Realizado com Sucesso!')
-                    window.location.reload()
-                }else{
-                    alert('Erro de cadastro tente novamente');
-                }
-        }catch(err){
-            alert('Erro de conexao')
-                console.log(err)
-        }
-    }
 
 
     
