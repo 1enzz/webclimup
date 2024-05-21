@@ -82,6 +82,29 @@ const cadastraCSVCargo = async (json) => {
     }
 }
 
+//requisiscao de cadastro de colaborador via planiilha csv
+const cadastraCSVColaborador = async (json) => {
+    try{
+        const requisicao = await fetch('http://localhost:3000/api/colaboradores',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: json
+            });
+
+            if(requisicao.ok){
+                alert('Cadastro Realizado com Sucesso!')
+                window.location.reload()
+            }else{
+                alert('Erro de cadastro tente novamente');
+            }
+    }catch(err){
+        alert('Erro de conexao')
+            console.log(err)
+    }
+}
+
 //requisiscao cadastro de departamentos via input
 const cadastrarManual = async (event) => {
     event.preventDefault();
@@ -158,6 +181,53 @@ const cadastrarManualCargo = async (event) => {
     }
 }
 
+//cadastro manual de colaboradores
+const cadastrarManualColaborador = async (event) => {
+    event.preventDefault();
+    let select = document.getElementById('selectCargoCol')
+    let nome = document.getElementById('nomeColaborador').value
+    let email = document.getElementById('emailColaborador').value
+    let senha = document.getElementById('senhaPadrao').value
+    let sexo = document.getElementById('sexoColaborador').value
+    let idade = document.getElementById('idadeColaborador').value
+
+    if(nome === ''){
+        alert('Preencha o nome do Cargo')
+    }else{
+        const data = [{
+            nomeColaborador: nome,
+            cargoColaborador: select.value,
+            emailColaborador: email,
+            senhaColaboradorPadrao: senha,
+            idadeColaborador: idade,
+            sexoColaborador: sexo,
+            idEmpresa: id
+        }]
+
+        let json = JSON.stringify(data)
+        try{
+            const requisicao = await fetch('http://localhost:3000/api/colaboradores',{
+                method: 'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: json
+            });
+
+            if(requisicao.ok){
+                alert('Cadastro Realizado com Sucesso!')
+                window.location.reload()
+            }else{
+                alert('Erro de cadastro tente novamente');
+            }
+        }catch(err){
+            alert('Erro de conexao')
+            console.log(err)
+        }
+    }
+}
+
+
 //requisicao que retorna todos dos departamentos cadastrados de uma empresa
 const retornaDepartamentosCadastrados = async () =>{
     const data = {
@@ -213,6 +283,69 @@ const retornaCargosCadastrados = async () =>{
 
             
             document.getElementById('tabela').appendChild(montarTabela(resposta.cargos))
+        }
+    }catch(err){
+        alert('Erro de conexao')
+        console.log(err)
+    }
+}
+
+//requisicao que retorna os colaboradores cadastrados de uma empresa em uma tabela
+const retornaColaboradoresCadastrados = async () =>{
+    const data = {
+        idEmpresa : id
+    }
+    
+    let json = JSON.stringify(data)
+
+    try{
+        const req = await fetch('http://localhost:3000/api/retornaColaboradores',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            }, 
+            body: json
+        })
+        if (req.ok){
+            const resposta = await req.json()
+            if(resposta.total === 0){
+                alert('Sem registros')
+            }
+
+            
+            document.getElementById('tabela').appendChild(montarTabela(resposta.colaboradores))
+        }
+    }catch(err){
+        alert('Erro de conexao')
+        console.log(err)
+    }
+}
+
+
+//requisicao que retorna os cargos cadastrados de uma empresa que irao abastecer o select do cadastro de colaboradores
+const retornaCargoSelect = async () =>{
+    const data = {
+        idEmpresa : id
+    }
+    
+    let json = JSON.stringify(data)
+
+    try{
+        const req = await fetch('http://localhost:3000/api/retornaCargoSelect',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            }, 
+            body: json
+        })
+        if (req.ok){
+            const resposta = await req.json()
+            if(resposta.total === 0){
+                alert('Sem registros')
+            }
+
+            
+            abasteceSelect(resposta.cargos)
         }
     }catch(err){
         alert('Erro de conexao')

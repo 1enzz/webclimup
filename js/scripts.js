@@ -86,6 +86,36 @@ function csvtoJsonCargo(csv, idEmpresa, idDepartamento){
     }
 }
 
+//cadastro de colaborador via planilha csv
+function csvtoJsonColaborador(csv, idEmpresa){
+
+    const lines = csv.split('\n');
+    const result = [];
+    const headers = lines[0].split(';');
+    
+
+    for (let i = 1; i < lines.length; i++) {
+        if(i == 1  && lines[i] == ""){
+            alert('Preencha a planilha com algum dado apos o cabeçalho')
+        }else if (lines[i] == ""){
+            let json = JSON.stringify(result);
+            cadastraCSVColaborador(json);
+            return;
+        }
+        const obj = {};
+        const currentLine = lines[i].split(';');
+
+        for (let j = 0; j<headers.length; j++){
+            obj[headers[j]] = currentLine[j];
+        }
+        
+
+        obj['idEmpresa'] = idEmpresa;
+
+        result.push(obj);
+    }
+}
+
 //monta tabela html a partir do json
 function montarTabela(json) {
     var table = document.createElement("table");
@@ -124,13 +154,15 @@ function escondeDivs(){
     csv.style.display = "none";
 
 }
+//essa funcao é  muito pica na moral
 function abasteceSelect(retorno){
-    const departamentosSelect = document.getElementById('selectIdDept')
+    const departamentosSelect = document.querySelector('select')
 
-    retorno.forEach(departamento =>{
+    retorno.forEach(valor =>{
         const opcao = document.createElement('option')
-        opcao.value = departamento.idDepartamento;
-        opcao.text = departamento.nomeDepartamento;
+        opcao.value = valor.Id;
+        const campo = Object.keys(valor).filter(key => key !== "Id")
+        opcao.text = valor[campo[0]];
         departamentosSelect.appendChild(opcao)
 
     })
