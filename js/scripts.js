@@ -281,6 +281,7 @@ const criaCard = () => {
                 </div>
                 <div style="display: flex; justify-content: center; margin: 5px;">
                     <button id="cadForm" type="button" onclick="cadastraQuestionario(event)" style="width: 100%" class="button-disabled">Cadastrar</button>
+                    <button id="restart" type="button" onclick="reiniciaForm(event)" style="width: 100%" class="button-disabled" title="Reiniciar Formulario"><img src="../assets/img/8678658_restart_line_icon.png"></img></button>
                 </div>
             </div>
     `;
@@ -288,12 +289,15 @@ const criaCard = () => {
 
 
 
-    let p1 = document.getElementById('pergunta1')
+    let p1 = document.getElementById('pergunta1');
     let p2 = document.getElementById('pergunta2');
     let p3 = document.getElementById('pergunta3');
     let p4 = document.getElementById('pergunta4');
     let p5 = document.getElementById('pergunta5');
     let jsonsempergunta;
+    let restart = document.getElementById('restart');
+
+    
     p1.addEventListener('change', function(){
        
         const idParaRemover = parseInt(p1.value, 10);
@@ -302,6 +306,7 @@ const criaCard = () => {
          jsonsempergunta = perguntas.filter(pergunta => pergunta.Id !== idParaRemover);
         abasteceSelect3(jsonsempergunta, p2);
         p2.removeAttribute('disabled');
+        restart.classList.remove('button-disabled');
         
     })
     p2.addEventListener('change', function(){
@@ -338,6 +343,24 @@ const criaCard = () => {
         document.getElementById('cadForm').removeAttribute('disabled')
         document.getElementById('cadForm').classList.remove('button-disabled');
     })
+
+
 }
+
+
+const reiniciaForm = (event) =>{
+    event.preventDefault();
+    document.getElementById('nomeQuestionario').value = ''
+    document.getElementById('pergunta1').value = ""
+    document.getElementById('pergunta2').value = ""
+    document.getElementById('pergunta3').value = ""
+    document.getElementById('pergunta4').value = ""
+    document.getElementById('pergunta5').value = ""
+
+    document.getElementById('cadForm').classList.add('button-disabled');
+    document.getElementById('restart').classList.add('button-disabled');
+    document.getElementById('pergunta2').setAttribute('disabled', true);
+}
+
 
  

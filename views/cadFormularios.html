@@ -205,10 +205,13 @@
             outline: none;
         }
         .button-disabled {
-        opacity: 0.5; 
-        cursor: not-allowed !important; 
+            opacity: 0.5; 
+            cursor: not-allowed !important; 
 
-    }
+        }
+        #restart{
+            background-color: transparent !important;
+        }
 
     </style>
     <link rel="stylesheet" href="../styles/style.css">
@@ -276,7 +279,7 @@
     </div>
     <script>
         window.onload = async function(){
-
+            retornaQuestionariosCadastrados();
             retornaCategoriaSelect();
 
         }

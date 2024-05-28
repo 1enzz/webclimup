@@ -560,3 +560,37 @@ const cadastraQuestionario = async (event) =>{
         console.log(err)
     }
 }
+
+
+
+const retornaQuestionariosCadastrados = async () =>{
+    const data = {
+        idEmpresa : id
+    }
+    
+    let json = JSON.stringify(data)
+
+    try{
+        const req = await fetch('http://localhost:3000/api/retornaQuestionarios',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            }, 
+            body: json
+        })
+        if (req.ok){
+            const resposta = await req.json()
+            if(resposta.total === 0){
+                alert('Sem registros')
+            }
+            
+            document.getElementById('tabela').appendChild(montarTabela(resposta.questionarios))
+        }else{
+            const errorData = await req.json();
+            alert('Erro: ' + errorData.message)
+        }
+    }catch(err){
+        alert('Erro de conexao')
+        console.log(err)
+    }
+}
