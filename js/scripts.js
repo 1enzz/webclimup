@@ -116,6 +116,35 @@ function csvtoJsonColaborador(csv, idEmpresa){
     }
 }
 
+function csvtoJsonPergunta(csv, idEmpresa){
+
+    const lines = csv.split('\n');
+    const result = [];
+    const headers = lines[0].split(';');
+    
+
+    for (let i = 1; i < lines.length; i++) {
+        if(i == 1  && lines[i] == ""){
+            alert('Preencha a planilha com algum dado apos o cabeçalho')
+        }else if (lines[i] == ""){
+            let json = JSON.stringify(result);
+            cadastraCSVPergunta(json);
+            return;
+        }
+        const obj = {};
+        const currentLine = lines[i].split(';');
+
+        for (let j = 0; j<headers.length; j++){
+            obj[headers[j]] = currentLine[j];
+        }
+        
+
+        obj['idEmpresa'] = idEmpresa;
+
+        result.push(obj);
+    }
+}
+
 //monta tabela html a partir do json
 function montarTabela(json) {
     var table = document.createElement("table");
@@ -168,6 +197,34 @@ function abasteceSelect(retorno){
     })
 }
 
+let perguntas 
+function abasteceSelectPerguntas(retorno){
+
+    perguntas = retorno;
+    const select1 = document.getElementById('pergunta1')
+
+    retorno.forEach(valor =>{
+        const opcao = document.createElement('option')
+        opcao.value = valor.Id;
+        const campo = Object.keys(valor).filter(key => key !== "Id")
+        opcao.text = valor[campo[0]];
+        select1.appendChild(opcao)
+
+    })
+}
+
+function abasteceSelect3(json, select){
+    json.forEach(valor =>{
+        const opcao = document.createElement('option')
+        opcao.value = valor.Id;
+        const campo = Object.keys(valor).filter(key => key !== "Id")
+        opcao.text = valor[campo[0]];
+        select.appendChild(opcao)
+
+    })
+    
+}
+
 function alertCadastre(){
 
     alert('Conclua o processo de cadastro dos Setores e Colaboradores primeiro!')
@@ -181,3 +238,106 @@ function home(){
 function sair() {
     window.location.href = 'login.html'
 }
+
+
+const criaCard = () => {
+    const contentDiv = document.getElementById('realizarCadastro');
+    contentDiv.innerHTML = `
+            <div id="cardCadastro" class="left">
+                <div style="margin: 20px;">
+                    <h2 id="tituloCard">Cadastro Questionário</h2>
+                </div>
+                <div style="display: flex; justify-content: center; width: 100%;">
+                    <div style="display: flex; flex-direction: column; align-items: center; width: 200%;">
+                        <div id="bgSelect" style="width: 100%;">
+                            <input id="nomeQuestionario" placeholder="Nome Questionario" style="width: 80%;"/>
+                        </div>
+                        <div id="bgSelect" style="width: 90%;">
+                            <select class="select" id="pergunta1" style="width: 100%;">
+                                <option value="" selected>Selecione...</option>
+                            </select>
+                        </div>
+                        <div id="bgSelect" style="width: 90%;">
+                            <select class="select" id="pergunta2" style="width: 100%;" disabled>
+                                <option value="" selected>Selecione...</option>
+                            </select>
+                        </div>
+                        <div id="bgSelect" style="width: 90%;">
+                            <select class="select" id="pergunta3" style="width: 100%;" disabled>
+                                <option value="" selected>Selecione...</option>
+                            </select>
+                        </div>
+                        <div id="bgSelect" style="width: 90%;">
+                            <select class="select" id="pergunta4" style="width: 100%;" disabled>
+                                <option value="" selected>Selecione...</option>
+                            </select>
+                        </div>
+                        <div id="bgSelect" style="width: 90%;">
+                            <select class="select" id="pergunta5" style="width: 100%;" disabled>
+                                <option value="" selected>Selecione...</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; margin: 5px;">
+                    <button id="cadForm" type="button" onclick="cadastraQuestionario(event)" style="width: 100%" class="button-disabled">Cadastrar</button>
+                </div>
+            </div>
+    `;
+
+
+
+
+    let p1 = document.getElementById('pergunta1')
+    let p2 = document.getElementById('pergunta2');
+    let p3 = document.getElementById('pergunta3');
+    let p4 = document.getElementById('pergunta4');
+    let p5 = document.getElementById('pergunta5');
+    let jsonsempergunta;
+    p1.addEventListener('change', function(){
+       
+        const idParaRemover = parseInt(p1.value, 10);
+
+
+         jsonsempergunta = perguntas.filter(pergunta => pergunta.Id !== idParaRemover);
+        abasteceSelect3(jsonsempergunta, p2);
+        p2.removeAttribute('disabled');
+        
+    })
+    p2.addEventListener('change', function(){
+       
+        const idParaRemover = parseInt(p2.value, 10);
+
+
+         jsonsempergunta = jsonsempergunta.filter(pergunta => pergunta.Id !== idParaRemover);
+        abasteceSelect3(jsonsempergunta, p3);
+        p3.removeAttribute('disabled');
+        
+    })
+    p3.addEventListener('change', function(){
+       
+        const idParaRemover = parseInt(p3.value, 10);
+
+
+         jsonsempergunta = jsonsempergunta.filter(pergunta => pergunta.Id !== idParaRemover);
+        abasteceSelect3(jsonsempergunta, p4);
+        p4.removeAttribute('disabled');
+        
+    })
+    p4.addEventListener('change', function(){
+       
+        const idParaRemover = parseInt(p4.value, 10);
+
+
+         jsonsempergunta = jsonsempergunta.filter(pergunta => pergunta.Id !== idParaRemover);
+        abasteceSelect3(jsonsempergunta, p5);
+        p5.removeAttribute('disabled');
+        
+    })
+    p5.addEventListener('change', function(){
+        document.getElementById('cadForm').removeAttribute('disabled')
+        document.getElementById('cadForm').classList.remove('button-disabled');
+    })
+}
+
+ 

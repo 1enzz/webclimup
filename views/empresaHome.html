@@ -10,6 +10,12 @@
     h1{
         font-family: 'Poppins-Bold';
     }
+    h2{
+        font-family: 'Poppins-Bold';
+    }
+    p, ul, ol{
+        font-family: 'Poppins-Regular';
+    }
     body, html {
         margin: 0;
         padding: 0;
@@ -83,6 +89,12 @@
         font-size: xx-small;
 
     }
+    #howto{
+        color: var(--corPadrao);
+        background-color: white;
+        padding: 32px;
+        border-radius: 16px;
+    }
 </style>
 <link rel="stylesheet" href="../styles/style.css">
 </head>
@@ -126,7 +138,45 @@
         </div>
     </div>
     <div class="content">
-        <!-- Conteúdo da página aqui -->
+        <div id="howto">
+            <h2>Bem-vindo ao ClimUp!</h2>
+            <p>O ClimUp é um sistema de gerenciamento empresarial que facilita o cadastro e organização de informações essenciais para a sua empresa.</p>
+            <p>Navegue pelas opções abaixo para começar:</p>
+            <ul>
+                <li>Formulários:
+                    <ul>
+                        <li>Perguntas</li>
+                        <li>Formulários</li>
+                    </ul>
+                </li>
+                <li>Setores e Colaboradores:
+                    <ul>
+                        <li>Departamentos</li>
+                        <li>Cargos</li>
+                        <li>Colaboradores</li>
+                    </ul>
+                </li>
+                <li>Empresa:
+                    <ul>
+                        <li>Detalhes</li>
+                    </ul>
+                </li>
+            </ul>
+            <p>Para cadastrar um colaborador, é necessário seguir uma sequência:</p>
+            <ol>
+                <li>Cadastre todos os Departamentos da sua empresa.</li>
+                <li>Em seguida, cadastre os Cargos de cada Departamento.</li>
+                <li>Por fim, cadastre os Colaboradores.</li>
+            </ol>
+            <p>Se alguma etapa estiver pendente, as opções de cadastro relacionadas não estarão disponíveis.</p>
+            <p>Ao carregar, as páginas exibirão:</p>
+            <ul>
+                <li>Uma tabela com os dados cadastrados, se existirem;</li>
+                <li>Ou a opção de cadastrar manualmente ou via planilha do Excel.</li>
+            </ul>
+            <p>Para cadastrar manualmente, preencha os dados corretamente e clique em "Cadastrar".</p>
+            <p>Para cadastrar via planilha, insira o arquivo no formato .csv, seguindo o modelo fornecido.</p>
+        </div>
     </div>
 </div>
 </body>

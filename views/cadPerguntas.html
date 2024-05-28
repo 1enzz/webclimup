@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/reqs.js"></script>
+    <script src="../js/scripts.js"></script>
+    <title>Cadastro Perguntas</title>
+    <style>
+        h1 {
+            font-family: 'Poppins-Bold';
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--corPadrao); 
+        }
+        a, i {
+            font-family: var(--fonteNormal);
+            color: var(--corPadrao);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .cabecalho {
+            background-color: white; 
+            color: #457B9D; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .links p {
+            color: #457B9D; 
+            text-decoration: none;
+            font-family: 'Poppins-Regular';
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .links p:hover {
+            color: var(--corHover); 
+            transform: translateY(-5px);
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            color: white; 
+        }
+        .botao-sair {
+            background-color: var(--corPadrao);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Poppins-Regular';
+        }
+        .botao-sair:hover {
+            background-color: var(--corHover);
+        }
+        #climup {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+        #climup:hover {
+            color: var(--corHover);
+            transform: translateY(-5px);
+        }
+        .listaTelas {
+            border-radius: 5px;
+            font-family: var(--fonteNormal);
+            margin: 5px;
+            width: 100px;
+            height: 70px;
+            margin-left: 15px;
+        }
+        .listaTelas p {
+            font-size: xx-small;
+        }
+        #realizarCadastro {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        #cardCadastro, #cardCadastroCsv {
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 10px;
+            width: 100%; 
+            max-width: 400px; 
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #tabela {
+            font-family: var(--fonteNormal);
+        }
+        table {
+            width: 100%; 
+        }
+        th {
+            background-color: #f2f2f2; 
+            padding: 8px; 
+            text-align: left; 
+            border: 1px solid transparent; 
+        }
+        td {
+            padding: 8px;
+            text-align: left; 
+            border: 1px solid transparent;
+        }
+        tbody tr:nth-child(odd) td {
+            background-color: #f9f9f9; 
+        }
+        tbody tr:hover td {
+            background-color: #f2f2f2; 
+        }
+        #cardCadastro h2, #cardCadastroCsv h2 {
+            color: var(--corPadrao);
+            font-family: var(--fonteTitulo);
+        }
+        #cardCadastro button, #cardCadastroCsv button {
+            background-color: var(--corPadrao);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #cardCadastro button:hover, #cardCadastroCsv button:hover {
+            background-color: var(--corHover);
+        }
+        .left {
+            flex: 0.5; 
+            background-color: white;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px;
+        }
+        .right {
+            flex: 0.5;  
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px;
+            padding-bottom: 30px;
+        }
+        #tabela {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            border-radius: 8px;
+            margin: 5px;
+            color: var(--corPadrao);
+        }
+        #tabelaDept {
+            color: var(--corPadrao);
+        }
+        #selecionaDepartamento {
+            background-color:  transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px;
+            padding-bottom: 30px;
+            border-radius: 8px;
+            font-family: var(--fonteTitulo);
+            color: var(--corPadrao);
+            padding: 5px;
+            color: white;
+        }
+        #bgSelect {
+            display: flex;
+            justify-content: center;
+            margin: 5px;
+        }
+        #selectCategoria {
+            font-family: var(--fonteNormal);
+            color: var(--corPadrao);
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            appearance: none;
+            background-color: #fff;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23777" d="M2 0L0 2h4zM0 3l2 2 2-2z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 8px 10px;
+        }
+        #selectCategoria:focus {
+            border-color: #457B9D;
+            box-shadow: 0 0 5px rgba(69, 123, 157, 0.5);
+            outline: none;
+        }
+    </style>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="cabecalho">
+            <div id="climup">
+                <h1 onclick="home()">ClimUp</h1>
+            </div>
+            <div class="links">
+                <div style="display: flex; justify-content: center;">
+                    <p onclick="abreCadForms()" id="btnFrm">Formulários</p>
+                    <div class="listaTelas" id="listaForms" hidden>
+                        <div style="margin-left: 5px;">
+                            <p onclick="abrePagLista('perguntas')" id="p">Perguntas</p>
+                            <p onclick="abrePagLista('formularios')" id="fr">Formulários</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <p onclick="abreCadColaboradores()" id="btnSetCol">Setores e Colaboradores</p>
+                    <div class="listaTelas" id="listaColaboradores" hidden>
+                        <div style="margin-left: 5px;">
+                            <p onclick="abrePagLista('departamentos')" id="d">Departamentos</p>
+                            <p onclick="abrePagLista('cargos')" id="cg">Cargos</p>
+                            <p onclick="abrePagLista('colaboradores')" id="cl">Colaboradores</p>                  
+                        </div>              
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <p onclick="abreDetalhes()" id="btnEmp">Empresa</p>
+                    <div class="listaTelas" id="detalhes" hidden>
+                        <div style="margin-left: 5px;">
+                            <p onclick="abrePagLista('detalhes')">Detalhes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="botao-sair" onclick="sair()">Sair</button>
+            </div>
+        </div>
+        <div class="content">
+            <div id="perguntasCadastradas">
+                <div id="tabela"></div>
+            </div>
+            <div id="realizarCadastro">
+                <div id="cardCadastro" class="left">
+                    <div style="margin: 20px;">
+                        <h2 id="tituloCard">Cadastro Perguntas</h2>
+                    </div>
+                    <div style="display: flex; justify-content: center; width: 100%;">
+                        <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                            <input id="pergunta" type="text" placeholder="Nome" style="margin: 5px; width: 90%;">
+                            <div id="bgSelect" style="width: 90%;">
+                                <select id="selectCategoria" style="width: 100%;">
+                                    <option value="" selected>Selecione...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin: 5px;">
+                        <button type="button" onclick="cadastraManualPerguntas(event)">Cadastrar</button>
+                    </div>
+                </div>
+                <div id="cardCadastroCsv" class="right" style="height: 310px;">
+                    <div>
+                        <h2 id="tituloCardCsv">Cadastro Pergunta CSV</h2>
+                        <i>*Insira um arquivo por vez <b><a href="../src/modeloPergunta.csv" download>modelo aqui</a></b></i>
+                    </div>
+                    <div style="display: flex; justify-content: center; margin: 5px;">
+                        <a><input id="arquivoPergunta" type="file" style="margin: 5px; cursor:pointer;"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onload = async function(){
+            buscaParams();
+            retornaCategoriaSelect();
+            retornaPerguntasCadastradas();
+        }
+        function abrePagLista(pagina) {
+            if(pagina == 'detalhes'){
+                window.location.href =`dashboardEmpresa.html?idEmpresa=${id}`;
+            } else if(pagina == 'cargos'){
+                window.location.href = `cadCargos.html?idEmpresa=${id}`;
+            } else if(pagina == 'colaboradores'){
+                window.location.href = `cadColaboradores.html?idEmpresa=${id}`;
+            } else if(pagina == 'departamentos'){
+                window.location.href = `cadDepartamentos.html?idEmpresa=${id}`;
+            } else if(pagina == 'formularios'){
+                window.location.href = `cadFormularios.html?idEmpresa=${id}`;
+            } else {
+                window.location.href = `cadPerguntas.html?idEmpresa=${id}`;
+            }
+        }
+        let contF = 0;
+        function abreCadForms() {
+            const listaForms = document.getElementById('listaForms');
+            listaForms.hidden = !listaForms.hidden;
+            contF++;
+        }
+        let contC = 0;
+        function abreCadColaboradores() {
+            const listaColaboradores = document.getElementById('listaColaboradores');
+            listaColaboradores.hidden = !listaColaboradores.hidden;
+            contC++;
+        }
+        let contD = 0;
+        function abreDetalhes() {
+            const detalhes = document.getElementById('detalhes');
+            detalhes.hidden = !detalhes.hidden;
+            contD++;
+        }
+
+        document.getElementById('arquivoPergunta').addEventListener('change', function (event){
+
+            let select = document.getElementById('selectIdDept')
+            const file = event.target.files[0]; 
+            if (file) {
+                const reader = new FileReader(); 
+                reader.onload = function(event) { 
+                    let csvData = event.target.result; 
+                    csvData = csvData.replace(/\r/g, '');
+                    csvtoJsonPergunta(csvData, id); 
+                };
+                reader.readAsText(file);
+            }
+        })
+    </script>
+</body>
+</html>
