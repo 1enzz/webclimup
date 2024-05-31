@@ -1,0 +1,247 @@
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Empresa</title>
+    <link rel="stylesheet" href="../styles/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/reqs.js"></script>
+    <style>
+        h1 {
+            font-family: 'Poppins-Bold';
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--corPadrao); 
+        }
+        a, i {
+            font-family: var(--fonteNormal);
+            color: var(--corPadrao);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .cabecalho {
+            background-color: white; 
+            color: #457B9D; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+        .links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .links p {
+            color: #457B9D; 
+            text-decoration: none;
+            font-family: 'Poppins-Regular';
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .links p:hover {
+            color: var(--corHover); 
+            transform: translateY(-5px);
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            color: white; 
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .botao-sair {
+            background-color: var(--corPadrao);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Poppins-Regular';
+        }
+        .botao-sair:hover {
+            background-color: var(--corHover);
+        }
+        #climup {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+        #climup:hover {
+            color: var(--corHover);
+            transform: translateY(-5px)
+        }
+        .chart-container {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            margin: 10px;
+        }
+        .chart-row {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cabecalho">
+            <div id="climup">
+                <h1 onclick="home()">ClimUp</h1>
+            </div>
+            <div class="links">
+                <div style="display: flex; justify-content: center;">
+                    <p onclick="abreCadForms()" id="btnFrm">Formulários</p>
+                    <div class="listaTelas" id="listaForms" hidden>
+                        <div style="margin-left: 5px;">
+                            <p onclick="abrePagLista('perguntas')" id="p">Perguntas</p>
+                            <p onclick="abrePagLista('formularios')" id="fr">Formulários</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <p onclick="abreCadColaboradores()" id="btnSetCol">Setores e Colaboradores</p>
+                    <div class="listaTelas" id="listaColaboradores" hidden>
+                        <div style="margin-left: 5px;">
+                            <p onclick="abrePagLista('departamentos')" id="d">Departamentos</p>
+                            <p onclick="abrePagLista('cargos')" id="cg">Cargos</p>
+                            <p onclick="abrePagLista('colaboradores')" id="cl">Colaboradores</p>                  
+                        </div>              
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <p onclick="abreDetalhes()" id="btnEmp">Empresa</p>
+                    <div class="listaTelas" id="detalhes" hidden>
+                        <div style="margin-left: 5px;">
+                            <p onclick="abrePagLista('detalhes')">Detalhes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="botao-sair" onclick="sair()">Sair</button>
+            </div>
+        </div>
+        <div class="content">
+            <div class="chart-row">
+                <div id="chartEmpresa" class="chart-container"></div>
+                <div id="chartDepartamentoTech" class="chart-container"></div>
+            </div>
+            <div class="chart-row">
+                <div id="chartDepartamentoRH" class="chart-container"></div>
+                <div id="chartDepartamentoFinancas" class="chart-container"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Gráfico Empresa
+        var optionsEmpresa = {
+            chart: {
+                type: 'bar'
+            },
+            series: [{
+                name: 'Notas',
+                data: [30, 40, 45, 50, 49, 60, 70, 91, 125]
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            }
+        }
+
+        var chartEmpresa = new ApexCharts(document.querySelector("#chartEmpresa"), optionsEmpresa);
+        chartEmpresa.render();
+
+        // Gráfico Departamento Tech
+        var optionsDepartamentoTech = {
+            chart: {
+                type: 'line'
+            },
+            series: [{
+                name: 'Notas',
+                data: [50, 60, 55, 70, 65, 80, 85, 95, 105]
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            }
+        }
+
+        var chartDepartamentoTech = new ApexCharts(document.querySelector("#chartDepartamentoTech"), optionsDepartamentoTech);
+        chartDepartamentoTech.render();
+
+        // Gráfico Departamento RH
+        var optionsDepartamentoRH = {
+            chart: {
+                type: 'pie'
+            },
+            series: [44, 55, 13, 43, 22],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+        }
+
+        var chartDepartamentoRH = new ApexCharts(document.querySelector("#chartDepartamentoRH"), optionsDepartamentoRH);
+        chartDepartamentoRH.render();
+
+        // Gráfico Departamento Finanças
+        var optionsDepartamentoFinancas = {
+            chart: {
+                type: 'bar'
+            },
+            series: [{
+                name: 'Notas',
+                data: [20, 30, 35, 40, 55, 60, 75, 80, 90]
+            }],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            }
+        }
+
+        var chartDepartamentoFinancas = new ApexCharts(document.querySelector("#chartDepartamentoFinancas"), optionsDepartamentoFinancas);
+        chartDepartamentoFinancas.render();
+
+
+
+        function abrePagLista(pagina) {
+            if(pagina == 'detalhes'){
+                window.location.href =`dashboardEmpresa.html?idEmpresa=${id}`;
+            } else if(pagina == 'cargos'){
+                window.location.href = `cadCargos.html?idEmpresa=${id}`;
+            } else if(pagina == 'colaboradores'){
+                window.location.href = `cadColaboradores.html?idEmpresa=${id}`;
+            } else if(pagina == 'departamentos'){
+                window.location.href = `cadDepartamentos.html?idEmpresa=${id}`;
+            } else if(pagina == 'formularios'){
+                window.location.href = `cadFormularios.html?idEmpresa=${id}`;
+            } else {
+                window.location.href = `cadPerguntas.html?idEmpresa=${id}`;
+            }
+        }
+        let contF = 0;
+        function abreCadForms() {
+            const listaForms = document.getElementById('listaForms');
+            listaForms.hidden = !listaForms.hidden;
+            contF++;
+        }
+        let contC = 0;
+        function abreCadColaboradores() {
+            const listaColaboradores = document.getElementById('listaColaboradores');
+            listaColaboradores.hidden = !listaColaboradores.hidden;
+            contC++;
+        }
+        let contD = 0;
+        function abreDetalhes() {
+            const detalhes = document.getElementById('detalhes');
+            detalhes.hidden = !detalhes.hidden;
+            contD++;
+        }
+    </script>
+</body>
+</html>
