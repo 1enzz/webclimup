@@ -11,6 +11,7 @@
     <style>
         h1 {
             font-family: 'Poppins-Bold';
+            color: var(--corPadrao);
         }
         body, html {
             margin: 0;
@@ -134,80 +135,87 @@
             </div>
         </div>
         <div class="content" style="background-color: #457B9D;">
-            <div class="chart-row">
-                <div id="chartEmpresa" class="chart-container"></div>
-                <div id="chartDepartamentoTech" class="chart-container"></div>
-            </div>
-            <div class="chart-row">
-                <div id="chartDepartamentoRH" class="chart-container"></div>
-                <div id="chartDepartamentoFinancas" class="chart-container"></div>
+            <div class="chart-row" style="color: var(--corPadrao); font-family: 'Poppins-Regular';">
+                
+                <div id="chartColaboradores" class="chart-container"><h1>Nota Setores</h1></div>
+                <div id="chartEmpresa" class="chart-container"><h1>Nota Geral Empresa</h1></div>
+                <div id="chartDepartamentos" class="chart-container"><h1>Nota Colaboradores</h1></div>
             </div>
         </div>
     </div>
     <script>
-        // Gráfico Empresa
-        var optionsEmpresa = {
-            chart: {
-                type: 'bar'
-            },
-            series: [{
-                name: 'Notas',
-                data: [30, 40, 45, 50, 49, 60, 70, 91, 125]
-            }],
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-            }
+        window.onload = async function(){
+            notaEmpresaGeral();
+            notasDepartamento();
+           notasFuncionarios();
         }
+        function geraGraficoEmpresa(nomeDepartamento, media){
+            var optionsEmpresa = {
+                chart: {
+                    type: 'bar'
+                },
+                series: [{
+                    name: 'Notas Empresa',
+                    data: [media]
+                }],
+                xaxis: {
+                    categories: [nomeDepartamento]
+                }
+            }
 
-        var chartEmpresa = new ApexCharts(document.querySelector("#chartEmpresa"), optionsEmpresa);
-        chartEmpresa.render();
-
+            var chartEmpresa = new ApexCharts(document.querySelector("#chartEmpresa"), optionsEmpresa);
+            chartEmpresa.render();
+        }
         // Gráfico Departamento Tech
-        var optionsDepartamentoTech = {
-            chart: {
-                type: 'line'
-            },
-            series: [{
-                name: 'Notas',
-                data: [50, 60, 55, 70, 65, 80, 85, 95, 105]
-            }],
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+
+       function geraGraficoFuncionarios(notas){
+            const notasExtraidas = [];
+            const nomesExtraidos = [];
+            for(let i =0; i<notas.length; i++){
+                notasExtraidas.push(notas[i].mediaNotas);
+                nomesExtraidos.push(notas[i].nomeColaborador);
             }
-        }
-
-        var chartDepartamentoTech = new ApexCharts(document.querySelector("#chartDepartamentoTech"), optionsDepartamentoTech);
-        chartDepartamentoTech.render();
-
-        // Gráfico Departamento RH
-        var optionsDepartamentoRH = {
-            chart: {
-                type: 'pie'
-            },
-            series: [44, 55, 13, 43, 22],
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
-        }
-
-        var chartDepartamentoRH = new ApexCharts(document.querySelector("#chartDepartamentoRH"), optionsDepartamentoRH);
-        chartDepartamentoRH.render();
-
-        // Gráfico Departamento Finanças
-        var optionsDepartamentoFinancas = {
-            chart: {
-                type: 'bar'
-            },
-            series: [{
-                name: 'Notas',
-                data: [20, 30, 35, 40, 55, 60, 75, 80, 90]
-            }],
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+            var optionsDepartamentoFinancas = {
+                chart: {
+                    type: 'bar'
+                },
+                series: [{
+                    name: 'Notas',
+                    data: notasExtraidas
+                }],
+                xaxis: {
+                    categories: nomesExtraidos
+                }
             }
-        }
 
-        var chartDepartamentoFinancas = new ApexCharts(document.querySelector("#chartDepartamentoFinancas"), optionsDepartamentoFinancas);
-        chartDepartamentoFinancas.render();
+            var chartDepartamentoFinancas = new ApexCharts(document.querySelector("#chartDepartamentos"), optionsDepartamentoFinancas);
+            chartDepartamentoFinancas.render();
+        }   
 
+
+        function geraGraficoDepartamento(notas){
+            const notasExtraidas = [];
+            const nomesExtraidos = [];
+            for(let i =0; i<notas.length; i++){
+                notasExtraidas.push(notas[i].mediaNotas);
+                nomesExtraidos.push(notas[i].nomeDepartamento);
+            }
+            var optionsDepartamentoFinancas = {
+                chart: {
+                    type: 'bar'
+                },
+                series: [{
+                    name: 'Notas',
+                    data: notasExtraidas
+                }],
+                xaxis: {
+                    categories: nomesExtraidos
+                }
+            }
+
+            var chartDepartamentoFinancas = new ApexCharts(document.querySelector("#chartColaboradores"), optionsDepartamentoFinancas);
+            chartDepartamentoFinancas.render();
+        }   
 
 
         function abrePagLista(pagina) {

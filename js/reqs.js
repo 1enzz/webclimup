@@ -594,3 +594,99 @@ const retornaQuestionariosCadastrados = async () =>{
         console.log(err)
     }
 }
+
+
+const notasFuncionarios = async () =>{
+    const data = {
+        idEmpresa : id
+    }
+    
+    let json = JSON.stringify(data)
+
+    try{
+        const req = await fetch('http://localhost:3000/api/notasFuncionarios',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            }, 
+            body: json
+        })
+        if (req.ok){
+            const resposta = await req.json()
+            if(resposta.total === 0){
+                alert('Sem registros')
+            }
+            geraGraficoFuncionarios(resposta.notas)
+        }
+    }catch(err){
+        alert('Erro de conexao')
+        console.log(err)
+    }
+}
+
+
+const notasDepartamento = async () =>{
+    const data = {
+        idEmpresa : id
+    }
+    
+    let json = JSON.stringify(data)
+
+    try{
+        const req = await fetch('http://localhost:3000/api/notasDepartamento',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            }, 
+            body: json
+        })
+        if (req.ok){
+            const resposta = await req.json()
+            if(resposta.total === 0){
+                alert('Sem registros')
+            }
+            
+            geraGraficoDepartamento(resposta.notas)
+        }else{
+            const errorData = await req.json();
+            alert('Erro: ' + errorData.message)
+        }
+    }catch(err){
+        alert('Erro de conexao')
+        console.log(err)
+    }
+}
+
+
+const notaEmpresaGeral= async () =>{
+    const data = {
+        idEmpresa : id
+    }
+    
+    let json = JSON.stringify(data)
+
+    try{
+        const req = await fetch('http://localhost:3000/api/notaEmpresaGeral',{
+            method: 'POST',
+            headers:{
+                'Content-Type' : 'application/json'
+            }, 
+            body: json
+        })
+        if (req.ok){
+            const resposta = await req.json()
+            if(resposta.total === 0){
+                alert('Sem registros')
+            }
+            
+             geraGraficoEmpresa(resposta.notas.nomeEmpresa, resposta.notas.mediaNotasEmpresa)
+        }else{
+            const errorData = await req.json();
+            alert('Erro: ' + errorData.message)
+        }
+    }catch(err){
+        alert('Erro de conexao')
+        console.log(err)
+    }
+}
+
