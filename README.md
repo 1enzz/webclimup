@@ -1,2 +1,2 @@
 # webclimup
-## This is the websipe of my graduate work
+## This is the website of my graduate work
