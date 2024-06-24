@@ -347,6 +347,22 @@ const criaCard = () => {
 
 }
 
+function exibeComentarios(comentarios) {
+    let interpessoal = comentarios[0].resultado[1].comentarios;
+    let ambiente = comentarios[0].resultado[0].comentarios;
+    for (let i = 0; i < interpessoal.length; i++) {
+        let p = document.createElement('p');
+        let textNode = document.createTextNode(interpessoal[i]);
+        p.appendChild(textNode);
+        document.getElementsByClassName('interpessoal')[0].appendChild(p);
+    }
+    for (let i = 0; i < ambiente.length; i++) {
+        let p = document.createElement('p');
+        let textNode = document.createTextNode(ambiente[i]);
+        p.appendChild(textNode);
+        document.getElementsByClassName('ambiente')[0].appendChild(p);
+    }
+}
 
 const reiniciaForm = (event) =>{
     event.preventDefault();

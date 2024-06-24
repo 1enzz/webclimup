@@ -93,6 +93,11 @@
             display: flex;
             justify-content: space-between;
         }
+        .comments{
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -141,13 +146,21 @@
                 <div id="chartEmpresa" class="chart-container"><h1>Nota Geral Empresa</h1></div>
                 <div id="chartDepartamentos" class="chart-container"><h1>Nota Colaboradores</h1></div>
             </div>
+            <div class="comments" style="color: var(--corPadrao); font-family: 'Poppins-Regular'">
+                <h1>Comentários</h1>
+                <div style="display: flex; justify-content: space-around;">
+                    <div class="ambiente"><h3>Ambiente</h3></div>
+                    <div class="interpessoal"><h3>Interpessoal</h3></div>
+                
+                </div>
         </div>
     </div>
     <script>
         window.onload = async function(){
             notaEmpresaGeral();
             notasDepartamento();
-           notasFuncionarios();
+            notasFuncionarios();
+            comentarios();
         }
         function geraGraficoEmpresa(nomeDepartamento, media){
             var optionsEmpresa = {
@@ -160,6 +173,24 @@
                 }],
                 xaxis: {
                     categories: [nomeDepartamento]
+                },
+                plotOptions: {
+                bar: {
+                    colors: {
+                            ranges: [
+                                {
+                                    from: 0,
+                                    to: 2.5,
+                                    color: '#FF4D4D' // Cor vermelha para notas menores que 3
+                                },
+                                {
+                                    from: 3,
+                                    to: 5,
+                                    color: '#5B92E5'// Cor verde para notas entre 3 e 5
+                                }
+                            ]
+                        }
+                    }
                 }
             }
 
@@ -185,6 +216,24 @@
                 }],
                 xaxis: {
                     categories: nomesExtraidos
+                },
+                plotOptions: {
+                bar: {
+                    colors: {
+                            ranges: [
+                                {
+                                    from: 0,
+                                    to: 2.5,
+                                    color: '#FF4D4D' // Cor vermelha para notas menores que 3
+                                },
+                                {
+                                    from: 3,
+                                    to: 5,
+                                    color: '#5B92E5' // Cor verde para notas entre 3 e 5
+                                }
+                            ]
+                        }
+                    }
                 }
             }
 
@@ -210,6 +259,24 @@
                 }],
                 xaxis: {
                     categories: nomesExtraidos
+                },
+                plotOptions: {
+                bar: {
+                    colors: {
+                            ranges: [
+                                {
+                                    from: 0,
+                                    to: 2.5,
+                                    color: '#FF4D4D' // Cor vermelha para notas menores que 3
+                                },
+                                {
+                                    from: 3,
+                                    to: 5,
+                                    color: '#5B92E5' // Cor verde para notas entre 3 e 5
+                                }
+                            ]
+                        }
+                    }
                 }
             }
 
