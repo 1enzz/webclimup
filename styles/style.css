@@ -24,3 +24,7 @@ input, button {
     font-family: 'Poppins-Regular';
     border-width: 1px;
 }
+
+#p, #fr,#cg, #cl, #d, #dt{
+    font-size: 15px;
+}

@@ -93,10 +93,26 @@
             display: flex;
             justify-content: space-between;
         }
-        .comments{
+
+        .comments {
             background-color: #f9f9f9;
             padding: 20px;
             border-radius: 10px;
+        }
+        .comments .ambiente, .comments .interpessoal {
+            position: relative;
+            height: 300px; 
+            width: 100%;
+        }
+        .comments p {
+            position: absolute;
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+        }
+        .comments p:hover{
+            transform: translateY(-5px)
         }
     </style>
 </head>
@@ -130,7 +146,7 @@
                     <p onclick="abreDetalhes()" id="btnEmp">Empresa</p>
                     <div class="listaTelas" id="detalhes" hidden>
                         <div style="margin-left: 5px;">
-                            <p onclick="abrePagLista('detalhes')">Detalhes</p>
+                            <p onclick="abrePagLista('detalhes')" id="dt">Detalhes</p>
                         </div>
                     </div>
                 </div>
@@ -149,8 +165,10 @@
             <div class="comments" style="color: var(--corPadrao); font-family: 'Poppins-Regular'">
                 <h1>Comentários</h1>
                 <div style="display: flex; justify-content: space-around;">
-                    <div class="ambiente"><h3>Ambiente</h3></div>
-                    <div class="interpessoal"><h3>Interpessoal</h3></div>
+                    <h3>Ambiente</h3>
+                    <div class="ambiente"></div>
+                    <h3>Interpessoal</h3>
+                    <div class="interpessoal"></div>
                 
                 </div>
         </div>
@@ -162,42 +180,47 @@
             notasFuncionarios();
             comentarios();
         }
-        function geraGraficoEmpresa(nomeDepartamento, media){
+        function geraGraficoEmpresa(ambiente, interpessoal) {
+
+            var departamentos = [
+                { nome: 'Ambiente', media: parseFloat(ambiente) },
+                { nome: 'Interpessoal', media: parseFloat(interpessoal) }
+            ];
+
             var optionsEmpresa = {
                 chart: {
                     type: 'bar'
                 },
                 series: [{
                     name: 'Notas Empresa',
-                    data: [media]
+                    data: departamentos.map(dep => dep.media)
                 }],
                 xaxis: {
-                    categories: [nomeDepartamento]
+                    categories: departamentos.map(dep => dep.nome)
                 },
                 plotOptions: {
-                bar: {
-                    colors: {
+                    bar: {
+                        colors: {
                             ranges: [
                                 {
                                     from: 0,
                                     to: 2.5,
-                                    color: '#FF4D4D' // Cor vermelha para notas menores que 3
+                                    color: '#FF4D4D'
                                 },
                                 {
-                                    from: 3,
+                                    from: 2.5,
                                     to: 5,
-                                    color: '#5B92E5'// Cor verde para notas entre 3 e 5
+                                    color: '#5B92E5'
                                 }
                             ]
                         }
                     }
                 }
-            }
-
+            };
+        
             var chartEmpresa = new ApexCharts(document.querySelector("#chartEmpresa"), optionsEmpresa);
             chartEmpresa.render();
         }
-        // Gráfico Departamento Tech
 
        function geraGraficoFuncionarios(notas){
             const notasExtraidas = [];
@@ -227,7 +250,7 @@
                                     color: '#FF4D4D' // Cor vermelha para notas menores que 3
                                 },
                                 {
-                                    from: 3,
+                                    from: 2.5,
                                     to: 5,
                                     color: '#5B92E5' // Cor verde para notas entre 3 e 5
                                 }
@@ -270,7 +293,7 @@
                                     color: '#FF4D4D' // Cor vermelha para notas menores que 3
                                 },
                                 {
-                                    from: 3,
+                                    from: 2.5,
                                     to: 5,
                                     color: '#5B92E5' // Cor verde para notas entre 3 e 5
                                 }

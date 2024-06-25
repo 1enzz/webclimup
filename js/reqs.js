@@ -684,7 +684,7 @@ const notaEmpresaGeral= async () =>{
                 alert('Sem registros')
             }
             
-             geraGraficoEmpresa(resposta.notas.nomeEmpresa, resposta.notas.mediaNotasEmpresa)
+             geraGraficoEmpresa(resposta.notas.ambiente, resposta.notas.interpessoal)
         }else{
             const errorData = await req.json();
             alert('Erro: ' + errorData.message)

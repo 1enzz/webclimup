@@ -350,18 +350,56 @@ const criaCard = () => {
 function exibeComentarios(comentarios) {
     let interpessoal = comentarios[0].resultado[1].comentarios;
     let ambiente = comentarios[0].resultado[0].comentarios;
-    for (let i = 0; i < interpessoal.length; i++) {
-        let p = document.createElement('p');
-        let textNode = document.createTextNode(interpessoal[i]);
-        p.appendChild(textNode);
-        document.getElementsByClassName('interpessoal')[0].appendChild(p);
+
+    function verificaSobreposicao(element, parent) {
+        const elements = parent.getElementsByTagName('p');
+        for (let i = 0; i < elements.length; i++) {
+            if (elements[i] === element) continue;
+            const rect1 = element.getBoundingClientRect();
+            const rect2 = elements[i].getBoundingClientRect();
+            if (!(rect1.right < rect2.left || 
+                  rect1.left > rect2.right || 
+                  rect1.bottom < rect2.top || 
+                  rect1.top > rect2.bottom)) {
+                return true;
+            }
+        }
+        return false;
     }
-    for (let i = 0; i < ambiente.length; i++) {
-        let p = document.createElement('p');
-        let textNode = document.createTextNode(ambiente[i]);
-        p.appendChild(textNode);
-        document.getElementsByClassName('ambiente')[0].appendChild(p);
+
+    function posicionaAleatoriamente(element, parent) {
+        const parentRect = parent.getBoundingClientRect();
+        let x, y, tentativas = 0;
+        do {
+            if (tentativas++ > 100) {
+                console.error("Não foi possível posicionar o elemento sem sobreposição.");
+                break;
+            }
+            x = Math.random() * (parentRect.width - element.offsetWidth);
+            y = Math.random() * (parentRect.height - element.offsetHeight);
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+        } while (verificaSobreposicao(element, parent));
     }
+
+    function addAndPositionParagraph(commentsArray, parentClass) {
+        const parent = document.getElementsByClassName(parentClass)[0];
+
+        commentsArray.forEach(comment => {
+            let p = document.createElement('p');
+            p.textContent = comment;
+            p.style.position = 'absolute';
+            parent.appendChild(p);
+
+            // Espera um pequeno intervalo para garantir que o parágrafo seja renderizado antes de posicioná-lo
+            setTimeout(() => {
+                posicionaAleatoriamente(p, parent);
+            }, 0);
+        });
+    }
+
+    addAndPositionParagraph(interpessoal, 'interpessoal');
+    addAndPositionParagraph(ambiente, 'ambiente');
 }
 
 const reiniciaForm = (event) =>{
