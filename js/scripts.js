@@ -391,7 +391,6 @@ function exibeComentarios(comentarios) {
             p.style.position = 'absolute';
             parent.appendChild(p);
 
-            // Espera um pequeno intervalo para garantir que o parágrafo seja renderizado antes de posicioná-lo
             setTimeout(() => {
                 posicionaAleatoriamente(p, parent);
             }, 0);
